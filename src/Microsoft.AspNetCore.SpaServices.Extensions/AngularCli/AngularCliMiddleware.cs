@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Net.Http;
 using Microsoft.AspNetCore.SpaServices.Extensions.Util;
+using System.Diagnostics;
 
 namespace Microsoft.AspNetCore.SpaServices.AngularCli
 {
@@ -47,8 +48,11 @@ namespace Microsoft.AspNetCore.SpaServices.AngularCli
             // - given that, there's no reason to use https, and we couldn't even if we
             //   wanted to, because in general the Angular CLI server has no certificate
             var targetUriTask = angularCliServerInfoTask.ContinueWith(
-                task => new UriBuilder("http", "localhost", task.Result.Port).Uri);
-
+                task => {
+                    logger.LogTrace($"Proxying request to http://localhost:{task.Result.Port}");
+                    return new UriBuilder("http", "localhost", task.Result.Port).Uri;
+                    });
+            
             SpaProxyingExtensions.UseProxyToSpaDevelopmentServer(spaBuilder, () =>
             {
                 // On each request, we create a separate startup task with its own timeout. That way, even if
@@ -57,7 +61,8 @@ namespace Microsoft.AspNetCore.SpaServices.AngularCli
                 return targetUriTask.WithTimeout(timeout,
                     $"The Angular CLI process did not start listening for requests " +
                     $"within the timeout period of {timeout.Seconds} seconds. " +
-                    $"Check the log output for error information.");
+                    $"Check the log output for error information.",
+                    logger);
             });
         }
 
@@ -112,13 +117,18 @@ namespace Microsoft.AspNetCore.SpaServices.AngularCli
                     try
                     {
                         // If we get any HTTP response, the CLI server is ready
+                        var timer = new Stopwatch();
+                        timer.Start();
                         await client.SendAsync(
                             new HttpRequestMessage(HttpMethod.Head, cliServerUri),
                             new CancellationTokenSource(1000).Token);
+                        timer.Stop();
+                        var elapsed = timer.ElapsedMilliseconds;
                         return;
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
+                        while (e != null) break;
                         await Task.Delay(1000); // 1 second
                     }
                 }

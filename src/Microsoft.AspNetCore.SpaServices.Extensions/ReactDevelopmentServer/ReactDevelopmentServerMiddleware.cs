@@ -56,7 +56,8 @@ namespace Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer
                 return targetUriTask.WithTimeout(timeout,
                     $"The create-react-app server did not start listening for requests " +
                     $"within the timeout period of {timeout.Seconds} seconds. " +
-                    $"Check the log output for error information.");
+                    $"Check the log output for error information.",
+                    logger);
             });
         }
 

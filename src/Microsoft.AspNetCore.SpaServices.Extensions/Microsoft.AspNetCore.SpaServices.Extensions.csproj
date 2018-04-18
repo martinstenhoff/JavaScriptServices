@@ -3,16 +3,15 @@
   <PropertyGroup>
     <Description>Helpers for building single-page applications on ASP.NET MVC Core.</Description>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>2.1.0-preview4-t001</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.AspNetCore.SpaServices\Microsoft.AspNetCore.SpaServices.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="$(MicrosoftAspNetCoreStaticFilesPackageVersion)" />
-    <PackageReference Include="Microsoft.AspNetCore.WebSockets" Version="$(MicrosoftAspNetCoreWebSocketsPackageVersion)" />
-    <PackageReference Include="Microsoft.Extensions.FileProviders.Physical" Version="$(MicrosoftExtensionsFileProvidersPhysicalPackageVersion)" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="2.1.0-preview2-final" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.1.0-preview2-final" />
+    <PackageReference Include="Microsoft.AspNetCore.WebSockets" Version="2.1.0-preview2-final" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Physical" Version="2.1.0-preview2-final" />
   </ItemGroup>
 
 </Project>

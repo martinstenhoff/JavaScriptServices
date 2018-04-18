@@ -4,7 +4,13 @@
     <TargetFrameworks>netcoreapp2.1;net461</TargetFrameworks>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <IsPackable>false</IsPackable>
+    <TypeScriptToolsVersion>2.8</TypeScriptToolsVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Clientside\App.ts" />
+    <None Remove="Clientside\HelloWorld.ts" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\Microsoft.AspNetCore.SpaServices\Microsoft.AspNetCore.SpaServices.csproj" />
@@ -18,6 +24,11 @@
     <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="$(MicrosoftAspNetCoreServerKestrelPackageVersion)" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="$(MicrosoftAspNetCoreStaticFilesPackageVersion)" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="$(MicrosoftExtensionsLoggingDebugPackageVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="Clientside\App.ts" />
+    <TypeScriptCompile Include="Clientside\HelloWorld.ts" />
   </ItemGroup>
 
   <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
